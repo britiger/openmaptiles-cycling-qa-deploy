@@ -8,6 +8,7 @@ git clone https://github.com/britiger/openmaptiles-cycling-qa
 
 ## Related Content
 * [Configuration file for OpenMapTiles](config/)
+* [Tools and scripts](tools/)
 * [QGIS Style file](qgis/)
 
 ## Configuration of external Database
