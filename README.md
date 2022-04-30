@@ -87,7 +87,7 @@ region=germany
 mkdir data
 
 # sample with hourly updates from planet
-cat <<EOF >>${region}.repl.json
+cat <<EOF >>data/${region}.repl.json
 {
   "replication_url": "http://planet.openstreetmap.org/replication/hour/",
   "replication_interval": "1h"
