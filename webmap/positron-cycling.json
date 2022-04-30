@@ -626,7 +626,8 @@
         [
           "any",
           ["==", ["get", "cycleway_all"], "lane"],
-          ["==", ["get", "cycleway_all"], "shared_lane"]
+          ["==", ["get", "cycleway_all"], "shared_lane"],
+          ["==", ["get", "cycleway_all"], "share_busway"]
         ]
       ],
       "layout": {"visibility": "visible"},

@@ -3079,7 +3079,7 @@
           </symbol>
         </symbols>
       </style>
-      <style min-zoom="-1" max-zoom="-1" name="cycleway_lane" enabled="1" geometry="1" expression="geometry_type($geometry)='Line' AND (&quot;class&quot; IN ('primary','secondary','tertiary')  AND (&quot;cycleway_all&quot; IN('lane','shared_lane')))" layer="transportation">
+      <style min-zoom="-1" max-zoom="-1" name="cycleway_lane" enabled="1" geometry="1" expression="geometry_type($geometry)='Line' AND (&quot;class&quot; IN ('primary','secondary','tertiary')  AND (&quot;cycleway_all&quot; IN('lane','shared_lane','share_busway')))" layer="transportation">
         <symbols>
           <symbol name="0" force_rhr="0" clip_to_extent="1" alpha="1" type="line">
             <data_defined_properties>
