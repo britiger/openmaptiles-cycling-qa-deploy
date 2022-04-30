@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Vector Tiles Maplibre Cycling-QA</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='maplibre-gl.js'></script>
+    <link href='maplibre-gl.css' rel='stylesheet' />
+    <link href='mapbox-gl-legend.css' rel='stylesheet' />
+    <script src="mapbox-gl-legend.js"></script>
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+		#refresh { position: absolute; top: 15px; left: 15px; background-color: white; padding: 5px; 
+			border: 1px solid black; font-family: Avenir; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div id='map'></div>
+<!-- <div id='refresh' onclick='reload()'>Reload</div> -->
+<script>
+var map = new maplibregl.Map({
+    container: 'map', // container id
+    style: window.location.protocol+'//'+window.location.host+'/positron-cycling.json', // style URL
+    center: [12, 51], // starting position [lng, lat]
+    zoom: 5, // starting zoom
+    hash: true
+    });
+const targets = {
+        'cycleway_no': 'Ohne Radweg',
+        'cycleway_no_nospeed': 'Ohne Radweg, maxspeed fehlt',
+        'cycleway_no_maxspeed': 'Ohne Radweg, maxspeed>70',
+        'cycleway_exists': 'Extra Radweg vorhanden',
+        'cycleway_missing': 'Radweginformation fehlt',
+        'cycleway_onlane': 'Radweg auf der Fahrbahn',
+        'bicycle_road': 'Fahrradstraße',
+        'bicycle_way_use': 'Radweg (Benutzungspflichtig)',
+        'bicycle_use_sidepath': 'Straße mit benutzungspfl. Radweg',
+        'bicycle_optional_sidepath': 'Straße mit optionalem Radweg',
+        'bicycle_no': 'Radfahren verboten'
+    };
+map.addControl(new watergis.MapboxLegendControl(targets, {
+        showDefault: true, 
+        showCheckbox: true, 
+        onlyRendered: true,
+        reverseOrder: true
+    }), 'bottom-left');
+map.addControl(new maplibregl.NavigationControl());
+</script>
+
+</body>
+</html>
