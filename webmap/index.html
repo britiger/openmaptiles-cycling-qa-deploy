@@ -49,15 +49,18 @@ Object.keys(targets).forEach(layerKey => {
 
         const body = e.features
             .map((f, index) => {
+                const osm_id = f.properties.osm_id
+                const osmWebsite = osm_id ?
+                    `<a href="https://www.openstreetmap.org/way/${osm_id}" target="_blank">OSM</a>` :
+                    ''
                 const tags = Object.keys(f.properties).map(k => (
                     `<tr><td>${k}</td><td>=</td><td>${f.properties[k]}</td></tr>`
                 )).join('')
+
                 return `
-                    <table>
-                        <tr><td colspan=2><strong>${f.id} / ${f.layer.id}</strong></td></tr>
-                        ${tags}
-                    </table>`
-                }).join('');
+                    <h2>${osm_id ? `way/${osm_id}` : 'osm_id missing'} ${osmWebsite}<br /> ${f.layer.id}</h2>
+                    <table>${tags}</table>`
+            }).join('');
 
         new maplibregl.Popup()
             .setLngLat(e.lngLat)
