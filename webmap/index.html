@@ -26,26 +26,60 @@ var map = new maplibregl.Map({
     center: [12, 51], // starting position [lng, lat]
     zoom: 5, // starting zoom
     hash: true
-    });
+});
 const targets = {
-        'cycleway_no': 'Ohne Radweg',
-        'cycleway_no_nospeed': 'Ohne Radweg, maxspeed fehlt',
-        'cycleway_no_maxspeed': 'Ohne Radweg, maxspeed>70',
-        'cycleway_exists': 'Extra Radweg vorhanden',
-        'cycleway_missing': 'Radweginformation fehlt',
-        'cycleway_onlane': 'Radweg auf der Fahrbahn',
-        'bicycle_road': 'Fahrradstraße',
-        'bicycle_way_use': 'Radweg (Benutzungspflichtig)',
-        'bicycle_use_sidepath': 'Straße mit benutzungspfl. Radweg',
-        'bicycle_optional_sidepath': 'Straße mit optionalem Radweg',
-        'bicycle_no': 'Radfahren verboten'
-    };
+    'cycleway_no': 'Ohne Radweg',
+    'cycleway_no_nospeed': 'Ohne Radweg, maxspeed fehlt',
+    'cycleway_no_maxspeed': 'Ohne Radweg, maxspeed>70',
+    'cycleway_exists': 'Extra Radweg vorhanden',
+    'cycleway_missing': 'Radweginformation fehlt',
+    'cycleway_onlane': 'Radweg auf der Fahrbahn',
+    'bicycle_road': 'Fahrradstraße',
+    'bicycle_way_use': 'Radweg (Benutzungspflichtig)',
+    'bicycle_use_sidepath': 'Straße mit benutzungspfl. Radweg',
+    'bicycle_optional_sidepath': 'Straße mit optionalem Radweg',
+    'bicycle_no': 'Radfahren verboten'
+};
+
+// https://docs.maptiler.com/maplibre-gl-js/map/#click
+// https://maplibre.org/maplibre-gl-js-docs/example/popup-on-click/
+Object.keys(targets).forEach(layerKey => {
+    map.on('click', layerKey, function(e) {
+        console.log({layerKey, features: e.features});
+
+        const body = e.features
+            .map((f, index) => {
+                const tags = Object.keys(f.properties).map(k => (
+                    `<tr><td>${k}</td><td>=</td><td>${f.properties[k]}</td></tr>`
+                )).join('')
+                return `
+                    <table>
+                        <tr><td colspan=2><strong>${f.id} / ${f.layer.id}</strong></td></tr>
+                        ${tags}
+                    </table>`
+                }).join('');
+
+        new maplibregl.Popup()
+            .setLngLat(e.lngLat)
+            .setHTML(body)
+            .addTo(map);
+    });
+
+    map.on('mouseenter', layerKey, function () {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+    map.on('mouseleave', layerKey, function () {
+        map.getCanvas().style.cursor = '';
+    });
+});
+
+
 map.addControl(new watergis.MapboxLegendControl(targets, {
-        showDefault: true, 
-        showCheckbox: true, 
-        onlyRendered: true,
-        reverseOrder: true
-    }), 'bottom-left');
+    showDefault: true,
+    showCheckbox: true,
+    onlyRendered: true,
+    reverseOrder: true
+}), 'bottom-left');
 map.addControl(new maplibregl.NavigationControl());
 </script>
 
