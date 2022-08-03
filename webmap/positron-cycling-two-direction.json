@@ -682,7 +682,7 @@
         ],
         ["!", ["has", "cycleway_right"]],
         ["!", ["has", "motorroad"]],
-        ["!=", ["get", "bicycle_right"], "no"]
+        ["!=", ["get", "bicycle_forward"], "no"]
       ],
       "layout": {"visibility": "visible", "line-join": "miter"},
       "paint": {
@@ -708,7 +708,9 @@
         ],
         ["!", ["has", "cycleway_left"]],
         ["!", ["has", "motorroad"]],
-        ["!=", ["get", "bicycle_left"], "no"]
+        ["!=", ["get", "bicycle_backward"], "no"],
+        ["!=", ["get", "oneway"], 1],
+        ["!=", ["get", "junction"], "roundabout"]
       ],
       "layout": {"visibility": "visible", "line-join": "miter"},
       "paint": {
@@ -736,14 +738,16 @@
         ],
         [
           "any",
-          ["==", ["get", "cycleway_all"], "track"],
-          ["==", ["get", "cycleway_all"], "separate"]
+          ["==", ["get", "cycleway_left"], "track"],
+          ["==", ["get", "cycleway_left"], "separate"]
         ],
         [
           "all",
           ["!=", ["get", "bicycle_backward"], "use_sidepath"],
           ["!=", ["get", "bicycle_backward"], "optional_sidepath"]
-        ]
+        ],
+        ["!=", ["get", "oneway"], 1],
+        ["!=", ["get", "junction"], "roundabout"]
       ],
       "layout": {"visibility": "visible", "line-join": "miter"},
       "paint": {
@@ -772,8 +776,8 @@
         ],
         [
           "any",
-          ["==", ["get", "cycleway_all"], "track"],
-          ["==", ["get", "cycleway_all"], "separate"]
+          ["==", ["get", "cycleway_right"], "track"],
+          ["==", ["get", "cycleway_right"], "separate"]
         ],
         [
           "all",
@@ -914,7 +918,10 @@
         ["!=", ["get", "class"], "minor"],
         ["!=", ["get", "class"], "service"],
         ["==", ["get", "cycleway_left"], "no"],
-        ["<=", ["get", "maxspeed_all"], 70]
+        ["<=", ["get", "maxspeed_all"], 70],
+        ["!=", ["get", "bicycle_left"], "no"],
+        ["!=", ["get", "oneway"], 1],
+        ["!=", ["get", "junction"], "roundabout"]
       ],
       "layout": {
         "line-cap": "butt",
@@ -936,6 +943,7 @@
       "source-layer": "transportation",
       "minzoom": 8,
       "filter": ["all", ["has", "is_bicycle_road"]],
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(0, 40, 255, 1)",
         "line-width": 8,
@@ -943,23 +951,26 @@
       }
     },
     {
-      "id": "bicycle_way_use",
+      "id": "bicycle_is_optional",
       "type": "line",
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 8,
-      "filter": [
-        "all",
-        [
-          "in",
-          "traffic_sign_all",
-          "DE:240",
-          "DE:237",
-          "DE:241",
-          "DE:241-30",
-          "DE:241-31"
-        ]
-      ],
+      "filter": ["all", ["has", "traffic_sign_is_optional"]],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(0, 40, 255, 1)",
+        "line-width": 2.5,
+        "line-dasharray": [0.5, 1]
+      }
+    },
+    {
+      "id": "bicycle_is_mandatory",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 8,
+      "filter": ["all", ["has", "traffic_sign_is_mandatory"]],
       "layout": {"visibility": "visible"},
       "paint": {"line-color": "rgba(0, 40, 255, 1)", "line-width": 2.5}
     },
@@ -978,7 +989,7 @@
       "paint": {
         "line-color": "rgba(0, 202, 198, 1)",
         "line-width": 3,
-        "line-offset": 2
+        "line-offset": -2
       }
     },
     {
@@ -996,7 +1007,7 @@
       "paint": {
         "line-color": "rgba(0, 202, 198, 1)",
         "line-width": 3,
-        "line-offset": -2
+        "line-offset": 2
       }
     },
     {
@@ -1006,15 +1017,17 @@
       "source-layer": "transportation",
       "filter": [
         "all",
-        ["==", "bicycle_backward", "use_sidepath"],
-        ["!=", "class", "minor"],
-        ["!=", "class", "service"]
+        ["==", ["get", "bicycle_backward"], "use_sidepath"],
+        ["!=", ["get", "class"], "minor"],
+        ["!=", ["get", "class"], "service"],
+        ["!=", ["get", "oneway"], 1],
+        ["!=", ["get", "junction"], "roundabout"]
       ],
       "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(46, 255, 0, 1)",
         "line-width": 3,
-        "line-offset": 2
+        "line-offset": -2
       }
     },
     {
