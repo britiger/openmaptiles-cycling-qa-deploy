@@ -21,7 +21,10 @@
     "maputnik:renderer": "mbgljs"
   },
   "sources": {
-    "openmaptiles": {"type": "vector", "url": "http://localhost:8090"}
+    "openmaptiles": {
+      "type": "vector",
+      "url": "https://cycling-qa.lorenz.lu/services/tiles"
+    }
   },
   "sprite": "https://cycling-qa.lorenz.lu/sprite",
   "glyphs": "https://cycling-qa.lorenz.lu//fonts/{fontstack}/{range}.pbf",
