@@ -8,6 +8,8 @@
     <link href='maplibre-gl.css' rel='stylesheet' />
     <link href='mapbox-gl-legend.css' rel='stylesheet' />
     <script src="mapbox-gl-legend.js"></script>
+    <link href='styleswitch.css' rel='stylesheet' />
+    <script src="styleswitch.js"></script>
     <style>
         body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
@@ -28,6 +30,7 @@ var map = new maplibregl.Map({
     hash: true
 });
 const targets = {
+    // One Direction
     'cycleway_no': 'Ohne Radweg',
     'cycleway_no_nospeed': 'Ohne Radweg, maxspeed fehlt',
     'cycleway_no_maxspeed': 'Ohne Radweg, maxspeed>70',
@@ -38,8 +41,41 @@ const targets = {
     'bicycle_way_use': 'Radweg (Benutzungspflichtig)',
     'bicycle_use_sidepath': 'Straße mit benutzungspfl. Radweg',
     'bicycle_optional_sidepath': 'Straße mit optionalem Radweg',
-    'bicycle_no': 'Radfahren verboten'
+    'bicycle_no': 'Radfahren verboten',
+    // Two Directions
+    'cycleway_no_left': 'Ohne Radweg',
+    'cycleway_no_right': 'Ohne Radweg',
+//    'cycleway_no_nospeed': 'Ohne Radweg, maxspeed fehlt',
+    'cycleway_no_maxspeed_left': 'Ohne Radweg, maxspeed>70',
+    'cycleway_no_maxspeed_right': 'Ohne Radweg, maxspeed>70',
+    'cycleway_exists_left': 'Extra Radweg vorhanden',
+    'cycleway_exists_right': 'Extra Radweg vorhanden',
+    'cycleway_missing_left': 'Radweginformation fehlt',
+    'cycleway_missing_right': 'Radweginformation fehlt',
+    'cycleway_onlane_left': 'Radweg auf der Fahrbahn',
+    'cycleway_onlane_right': 'Radweg auf der Fahrbahn',
+//    'bicycle_road': 'Fahrradstraße',
+    'bicycle_is_mandatory': 'Radweg (Benutzungspflichtig)',
+    'bicycle_is_optional': 'Radweg (nur Freigabe)',
+    'bicycle_use_sidepath_forward': 'Straße mit benutzungspfl. Radweg',    
+    'bicycle_use_sidepath_backward': 'Straße mit benutzungspfl. Radweg',
+    'bicycle_optional_sidepath_forward': 'Straße mit optionalem Radweg',
+    'bicycle_optional_sidepath_backward': 'Straße mit optionalem Radweg',
+    'bicycle_no_left': 'Radfahren verboten',
+    'bicycle_no_right': 'Radfahren verboten'
 };
+
+var styles = (MapLibreStyleDefinition = [
+        {
+          title: "Default",
+          uri: window.location.protocol+'//'+window.location.host+'/positron-cycling.json',
+        },
+        {
+          title: "Zwei Wege",
+          uri: window.location.protocol+'//'+window.location.host+'/positron-cycling-two-direction.json'
+        },
+        
+      ]);
 
 // https://docs.maptiler.com/maplibre-gl-js/map/#click
 // https://maplibre.org/maplibre-gl-js-docs/example/popup-on-click/
@@ -84,6 +120,7 @@ map.addControl(new watergis.MapboxLegendControl(targets, {
     reverseOrder: true
 }), 'bottom-left');
 map.addControl(new maplibregl.NavigationControl());
+map.addControl(new MapLibreStyleSwitcherControl(styles));
 </script>
 
 </body>
