@@ -632,9 +632,9 @@
       ],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-width": 3,
+        "line-width": {"stops": [[17, 3], [22, 9]]},
         "line-color": "rgba(155, 255, 14, 1)",
-        "line-offset": -2
+        "line-offset": {"stops": [[17, -2], [22, -6.5]]}
       }
     },
     {
@@ -663,9 +663,9 @@
       ],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-width": 3,
+        "line-width": {"stops": [[17, 3], [22, 9]]},
         "line-color": "rgba(155, 255, 14, 1)",
-        "line-offset": 2
+        "line-offset": {"stops": [[17, 2], [22, 6.5]]}
       }
     },
     {
@@ -689,9 +689,9 @@
       ],
       "layout": {"visibility": "visible", "line-join": "miter"},
       "paint": {
-        "line-width": 3,
+        "line-width": {"stops": [[17, 3], [22, 9]]},
         "line-color": "rgba(255, 185, 0, 1)",
-        "line-offset": 2
+        "line-offset": {"stops": [[17, 2], [22, 6.5]]}
       }
     },
     {
@@ -717,9 +717,9 @@
       ],
       "layout": {"visibility": "visible", "line-join": "miter"},
       "paint": {
-        "line-width": 3,
+        "line-width": {"stops": [[17, 3], [22, 9]]},
         "line-color": "rgba(255, 185, 0, 1)",
-        "line-offset": -2
+        "line-offset": {"stops": [[17, -2], [22, -6.5]]}
       }
     },
     {
@@ -754,10 +754,10 @@
       ],
       "layout": {"visibility": "visible", "line-join": "miter"},
       "paint": {
-        "line-width": 3,
+        "line-width": {"stops": [[17, 3], [22, 9]]},
         "line-color": "rgba(38, 161, 34, 1)",
         "line-dasharray": [1.5, 1.5],
-        "line-offset": -2
+        "line-offset": {"stops": [[17, -2], [22, -6.5]]}
       }
     },
     {
@@ -790,10 +790,10 @@
       ],
       "layout": {"visibility": "visible", "line-join": "miter"},
       "paint": {
-        "line-width": 3,
+        "line-width": {"stops": [[17, 3], [22, 9]]},
         "line-color": "rgba(38, 161, 34, 1)",
         "line-dasharray": [1.5, 1.5],
-        "line-offset": 2
+        "line-offset": {"stops": [[17, 2], [22, 6.5]]}
       }
     },
     {
@@ -818,11 +818,11 @@
         "visibility": "visible"
       },
       "paint": {
-        "line-width": 10,
+        "line-width": {"stops": [[17, 10], [22, 18]]},
         "line-blur": 6,
         "line-color": "rgba(255, 0, 228, 1)",
         "line-translate-anchor": "map",
-        "line-offset": -2.5
+        "line-offset": {"stops": [[17, -2.5], [22, -10]]}
       }
     },
     {
@@ -847,11 +847,11 @@
         "visibility": "visible"
       },
       "paint": {
-        "line-width": 10,
+        "line-width": {"stops": [[17, 10], [22, 18]]},
         "line-blur": 6,
         "line-color": "rgba(255, 0, 228, 1)",
         "line-translate-anchor": "map",
-        "line-offset": 2.5
+        "line-offset": {"stops": [[17, 2.5], [22, 10]]}
       }
     },
     {
@@ -876,7 +876,7 @@
         "visibility": "visible"
       },
       "paint": {
-        "line-width": 10,
+        "line-width": {"stops": [[17, 10], [22, 30]]},
         "line-blur": 6,
         "line-color": "rgba(255, 105, 0, 1)",
         "line-translate-anchor": "map"
@@ -902,11 +902,11 @@
         "visibility": "visible"
       },
       "paint": {
-        "line-width": 10,
+        "line-width": {"stops": [[17, 10], [22, 18]]},
         "line-blur": 6,
         "line-color": "rgba(255, 0, 0, 1)",
         "line-translate-anchor": "map",
-        "line-offset": 2.5
+        "line-offset": {"stops": [[17, 2.5], [22, 10]]}
       }
     },
     {
@@ -932,11 +932,11 @@
         "visibility": "visible"
       },
       "paint": {
-        "line-width": 10,
+        "line-width": {"stops": [[17, 10], [22, 18]]},
         "line-blur": 6,
         "line-color": "rgba(255, 0, 0, 1)",
         "line-translate-anchor": "map",
-        "line-offset": -2.5
+        "line-offset": {"stops": [[17, -2.5], [22, -10]]}
       }
     },
     {
@@ -949,7 +949,7 @@
       "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(0, 40, 255, 1)",
-        "line-width": 8,
+        "line-width": {"stops": [[17, 8], [22, 21]]},
         "line-blur": 5
       }
     },
@@ -963,8 +963,8 @@
       "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(0, 40, 255, 1)",
-        "line-width": 2.5,
-        "line-dasharray": [0.5, 1]
+        "line-dasharray": {"stops": [[17, [1, 2]], [22, [3, 6]]]},
+        "line-width": {"stops": [[17, 2.5], [22, 8]]}
       }
     },
     {
@@ -975,7 +975,10 @@
       "minzoom": 8,
       "filter": ["all", ["has", "traffic_sign_is_mandatory"]],
       "layout": {"visibility": "visible"},
-      "paint": {"line-color": "rgba(0, 40, 255, 1)", "line-width": 2.5}
+      "paint": {
+        "line-color": "rgba(0, 40, 255, 1)",
+        "line-width": {"stops": [[17, 2.5], [22, 8]]}
+      }
     },
     {
       "id": "bicycle_optional_sidepath_backward",
@@ -991,8 +994,8 @@
       "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(0, 202, 198, 1)",
-        "line-width": 3,
-        "line-offset": -2
+        "line-width": {"stops": [[17, 3], [22, 9]]},
+        "line-offset": {"stops": [[17, -2], [22, -6.5]]}
       }
     },
     {
@@ -1009,8 +1012,8 @@
       "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(0, 202, 198, 1)",
-        "line-width": 3,
-        "line-offset": 2
+        "line-width": {"stops": [[17, 3], [22, 9]]},
+        "line-offset": {"stops": [[17, 2], [22, 6.5]]}
       }
     },
     {
@@ -1029,8 +1032,8 @@
       "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(46, 255, 0, 1)",
-        "line-width": 3,
-        "line-offset": -2
+        "line-width": {"stops": [[17, 3], [22, 9]]},
+        "line-offset": {"stops": [[17, -2], [22, -6.5]]}
       }
     },
     {
@@ -1047,8 +1050,8 @@
       "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(46, 255, 0, 1)",
-        "line-width": 3,
-        "line-offset": 2
+        "line-width": {"stops": [[17, 3], [22, 9]]},
+        "line-offset": {"stops": [[17, 2], [22, 6.5]]}
       }
     },
     {
@@ -1070,9 +1073,9 @@
       "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(255, 0, 0, 1)",
-        "line-width": 3,
+        "line-width": {"stops": [[17, 3], [22, 9]]},
         "line-dasharray": [1, 1],
-        "line-offset": 2
+        "line-offset": {"stops": [[17, 2], [22, 6.5]]}
       }
     },
     {
@@ -1094,9 +1097,9 @@
       "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(255, 0, 0, 1)",
-        "line-width": 3,
+        "line-width": {"stops": [[17, 3], [22, 9]]},
         "line-dasharray": [1, 1],
-        "line-offset": -2
+        "line-offset": {"stops": [[17, -2], [22, -6.5]]}
       }
     },
     {
