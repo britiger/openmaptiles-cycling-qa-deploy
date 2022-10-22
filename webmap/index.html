@@ -6,8 +6,8 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='maplibre-gl.js'></script>
     <link href='maplibre-gl.css' rel='stylesheet' />
-    <link href='mapbox-gl-legend.css' rel='stylesheet' />
-    <script src="mapbox-gl-legend.js"></script>
+    <link href='maplibre-gl-legend.css' rel='stylesheet' />
+    <script src="maplibre-gl-legend.js"></script>
     <link href='styleswitch.css' rel='stylesheet' />
     <script src="styleswitch.js"></script>
     <style>
@@ -113,7 +113,7 @@ Object.keys(targets).forEach(layerKey => {
 });
 
 
-map.addControl(new watergis.MapboxLegendControl(targets, {
+map.addControl(new MaplibreLegendControl(targets, {
     showDefault: true,
     showCheckbox: true,
     onlyRendered: true,
