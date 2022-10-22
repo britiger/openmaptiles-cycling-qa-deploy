@@ -51,3 +51,7 @@ make start-update-osm
 mv data/tiles.mbtiles data/tiles_online.mbtiles
 docker restart mbtileserver
 cp data/tiles_online.mbtiles data/tiles.mbtiles
+
+# create last-update-file for web
+source /opt/openmaptiles-cycling-qa/data/last.state.txt
+echo "const last_update='${timestamp}'" > /opt/openmaptiles-web/last-update.js

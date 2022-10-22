@@ -10,6 +10,7 @@
     <script src="maplibre-gl-legend.js"></script>
     <link href='styleswitch.css' rel='stylesheet' />
     <script src="styleswitch.js"></script>
+    <script src="last-update.js"></script>
     <style>
         body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
@@ -27,7 +28,8 @@ var map = new maplibregl.Map({
     style: window.location.protocol+'//'+window.location.host+'/positron-cycling-two-direction.json', // style URL
     center: [12, 51], // starting position [lng, lat]
     zoom: 5, // starting zoom
-    hash: true
+    hash: true,
+    attributionControl: false
 });
 const targets = {
     // One Direction
@@ -125,6 +127,7 @@ map.addControl(new MaplibreLegendControl(targets, {
 }), 'bottom-left');
 map.addControl(new maplibregl.NavigationControl());
 map.addControl(new MapLibreStyleSwitcherControl(styles));
+map.addControl(new maplibregl.AttributionControl({ customAttribution: "Update: "+last_update }));
 </script>
 
 </body>
