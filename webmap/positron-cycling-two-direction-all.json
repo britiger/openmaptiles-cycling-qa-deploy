@@ -813,7 +813,6 @@
       "minzoom": 8,
       "filter": [
         "all",
-        ["!=", ["get", "class"], "minor"],
         ["!=", ["get", "class"], "service"],
         ["==", ["get", "cycleway_left"], "no"],
         [">", ["get", "maxspeed_all"], 70]
@@ -842,7 +841,6 @@
       "minzoom": 8,
       "filter": [
         "all",
-        ["!=", ["get", "class"], "minor"],
         ["!=", ["get", "class"], "service"],
         ["==", ["get", "cycleway_right"], "no"],
         [">", ["get", "maxspeed_all"], 70]
@@ -871,7 +869,6 @@
       "minzoom": 8,
       "filter": [
         "all",
-        ["!=", ["get", "class"], "minor"],
         ["!=", ["get", "class"], "service"],
         ["==", ["get", "cycleway_all"], "no"],
         ["!", ["has", "maxspeed_all"]]
@@ -897,7 +894,6 @@
       "minzoom": 8,
       "filter": [
         "all",
-        ["!=", ["get", "class"], "minor"],
         ["!=", ["get", "class"], "service"],
         ["==", ["get", "cycleway_right"], "no"],
         ["<=", ["get", "maxspeed_all"], 70]
@@ -924,7 +920,6 @@
       "minzoom": 8,
       "filter": [
         "all",
-        ["!=", ["get", "class"], "minor"],
         ["!=", ["get", "class"], "service"],
         ["==", ["get", "cycleway_left"], "no"],
         ["<=", ["get", "maxspeed_all"], 70],
@@ -994,8 +989,7 @@
       "filter": [
         "all",
         ["==", "bicycle_backward", "optional_sidepath"],
-        ["!=", "class", "service"],
-        ["!=", "class", "minor"]
+        ["!=", "class", "service"]
       ],
       "layout": {"visibility": "visible"},
       "paint": {
@@ -1012,8 +1006,7 @@
       "filter": [
         "all",
         ["==", "bicycle_forward", "optional_sidepath"],
-        ["!=", "class", "service"],
-        ["!=", "class", "minor"]
+        ["!=", "class", "service"]
       ],
       "layout": {"visibility": "visible"},
       "paint": {
@@ -1030,7 +1023,6 @@
       "filter": [
         "all",
         ["==", ["get", "bicycle_backward"], "use_sidepath"],
-        ["!=", ["get", "class"], "minor"],
         ["!=", ["get", "class"], "service"],
         ["!=", ["get", "oneway"], 1],
         ["!=", ["get", "junction"], "roundabout"]
@@ -1050,7 +1042,6 @@
       "filter": [
         "all",
         ["==", "bicycle_forward", "use_sidepath"],
-        ["!=", "class", "minor"],
         ["!=", "class", "service"]
       ],
       "layout": {"visibility": "visible"},
