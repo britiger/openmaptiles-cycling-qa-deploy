@@ -23,7 +23,7 @@
   "sources": {
     "openmaptiles": {
       "type": "vector",
-      "url": "https://cycling-qa.lorenz.lu/services/tiles"
+      "url": "https://cycling-qa.lorenz.lu/services/tiles_online"
     }
   },
   "sprite": "https://cycling-qa.lorenz.lu/sprite",
