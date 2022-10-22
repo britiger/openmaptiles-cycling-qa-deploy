@@ -6,8 +6,10 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='maplibre-gl.js'></script>
     <link href='maplibre-gl.css' rel='stylesheet' />
-    <link href='mapbox-gl-legend.css' rel='stylesheet' />
-    <script src="mapbox-gl-legend.js"></script>
+    <link href='maplibre-gl-legend.css' rel='stylesheet' />
+    <script src="maplibre-gl-legend.js"></script>
+    <link href='styleswitch.css' rel='stylesheet' />
+    <script src="styleswitch.js"></script>
     <style>
         body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
@@ -22,12 +24,13 @@
 <script>
 var map = new maplibregl.Map({
     container: 'map', // container id
-    style: window.location.protocol+'//'+window.location.host+'/positron-cycling.json', // style URL
+    style: window.location.protocol+'//'+window.location.host+'/positron-cycling-two-direction.json', // style URL
     center: [12, 51], // starting position [lng, lat]
     zoom: 5, // starting zoom
     hash: true
 });
 const targets = {
+    // One Direction
     'cycleway_no': 'Ohne Radweg',
     'cycleway_no_nospeed': 'Ohne Radweg, maxspeed fehlt',
     'cycleway_no_maxspeed': 'Ohne Radweg, maxspeed>70',
@@ -38,8 +41,45 @@ const targets = {
     'bicycle_way_use': 'Radweg (Benutzungspflichtig)',
     'bicycle_use_sidepath': 'Straße mit benutzungspfl. Radweg',
     'bicycle_optional_sidepath': 'Straße mit optionalem Radweg',
-    'bicycle_no': 'Radfahren verboten'
+    'bicycle_no': 'Radfahren verboten',
+    // Two Directions
+    'cycleway_no_left': 'Ohne Radweg',
+    'cycleway_no_right': 'Ohne Radweg',
+//    'cycleway_no_nospeed': 'Ohne Radweg, maxspeed fehlt',
+    'cycleway_no_maxspeed_left': 'Ohne Radweg, maxspeed>70',
+    'cycleway_no_maxspeed_right': 'Ohne Radweg, maxspeed>70',
+    'cycleway_exists_left': 'Extra Radweg vorhanden',
+    'cycleway_exists_right': 'Extra Radweg vorhanden',
+    'cycleway_missing_left': 'Radweginformation fehlt',
+    'cycleway_missing_right': 'Radweginformation fehlt',
+    'cycleway_onlane_left': 'Radweg auf der Fahrbahn',
+    'cycleway_onlane_right': 'Radweg auf der Fahrbahn',
+//    'bicycle_road': 'Fahrradstraße',
+    'bicycle_is_mandatory': 'Radweg (Benutzungspflichtig)',
+    'bicycle_is_optional': 'Radweg (nur Freigabe)',
+    'bicycle_use_sidepath_forward': 'Straße mit benutzungspfl. Radweg',    
+    'bicycle_use_sidepath_backward': 'Straße mit benutzungspfl. Radweg',
+    'bicycle_optional_sidepath_forward': 'Straße mit optionalem Radweg',
+    'bicycle_optional_sidepath_backward': 'Straße mit optionalem Radweg',
+    'bicycle_no_left': 'Radfahren verboten',
+    'bicycle_no_right': 'Radfahren verboten'
 };
+
+var styles = (MapLibreStyleDefinition = [
+    {
+        title: "Getrennte Richtung",
+        uri: window.location.protocol+'//'+window.location.host+'/positron-cycling-two-direction.json'
+    },
+    {
+        title: "Getrennte Richtung alle Straßen",
+        uri: window.location.protocol+'//'+window.location.host+'/positron-cycling-two-direction-all.json'
+    },
+    {
+      title: "Old-Version",
+      uri: window.location.protocol+'//'+window.location.host+'/positron-cycling.json',
+    },
+        
+      ]);
 
 // https://docs.maptiler.com/maplibre-gl-js/map/#click
 // https://maplibre.org/maplibre-gl-js-docs/example/popup-on-click/
@@ -51,14 +91,14 @@ Object.keys(targets).forEach(layerKey => {
             .map((f, index) => {
                 const osm_id = f.properties.osm_id
                 const osmWebsite = osm_id ?
-                    `<a href="https://www.openstreetmap.org/way/${osm_id}" target="_blank">OSM</a>` :
+                    `<a href="https://www.openstreetmap.org/way/${osm_id}" target="_blank">${osm_id}</a>` :
                     ''
                 const tags = Object.keys(f.properties).map(k => (
                     `<tr><td>${k}</td><td>=</td><td>${f.properties[k]}</td></tr>`
                 )).join('')
 
                 return `
-                    <h2>${osm_id ? `way/${osm_id}` : 'osm_id missing'} ${osmWebsite}<br /> ${f.layer.id}</h2>
+                    <h2>${osm_id ? `ID ${osmWebsite}` : 'osm_id missing'}<h2><h3>${targets[f.layer.id]}</h3>
                     <table>${tags}</table>`
             }).join('');
 
@@ -77,13 +117,14 @@ Object.keys(targets).forEach(layerKey => {
 });
 
 
-map.addControl(new watergis.MapboxLegendControl(targets, {
+map.addControl(new MaplibreLegendControl(targets, {
     showDefault: true,
     showCheckbox: true,
     onlyRendered: true,
     reverseOrder: true
 }), 'bottom-left');
 map.addControl(new maplibregl.NavigationControl());
+map.addControl(new MapLibreStyleSwitcherControl(styles));
 </script>
 
 </body>

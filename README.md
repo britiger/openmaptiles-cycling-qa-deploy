@@ -12,11 +12,11 @@ git clone https://github.com/britiger/openmaptiles-cycling-qa
 * [QGIS Style file](qgis/)
 
 ## Configuration of external Database
-* Install PostgreSQL 14 and postgis for [offical repository](https://wiki.postgresql.org/wiki/Apt): 
+* Install PostgreSQL 15 and postgis for [offical repository](https://wiki.postgresql.org/wiki/Apt): 
 ```bash
-apt install postgresql-14 \
-postgresql-14-postgis-3 \
-postgresql-server-dev-14
+apt install postgresql-15 \
+postgresql-15-postgis-3 \
+postgresql-server-dev-15
 ```
 * Clone and install required extensions:
 ```bash
@@ -33,8 +33,8 @@ make deb # If you have an error with gpgsign, you can ignore it
 cd ..
 
 #  Install extensions 
-dpkg -i postgresql-14-gzip_1.0.1_amd64.deb
-dpkg -i postgresql-14-osml10n_2.5.10_amd64.deb
+dpkg -i postgresql-15-gzip_1.0.1_amd64.deb
+dpkg -i postgresql-15-osml10n_2.5.10_amd64.deb
 ```
 * Create database and user for OpenMapTiles using `psql`:
 ```

@@ -607,7 +607,7 @@
       }
     },
     {
-      "id": "cycleway_onlane",
+      "id": "cycleway_onlane_left",
       "type": "line",
       "metadata": {
         "maputnik:comment": "Style for existing cycleway as lane on the major roads"
@@ -621,20 +621,57 @@
           "any",
           ["==", ["get", "class"], "primary"],
           ["==", ["get", "class"], "secondary"],
-          ["==", ["get", "class"], "tertiary"]
+          ["==", ["get", "class"], "tertiary"],
+          ["==", ["get", "class"], "minor"]
         ],
         [
           "any",
-          ["==", ["get", "cycleway_all"], "lane"],
-          ["==", ["get", "cycleway_all"], "shared_lane"],
-          ["==", ["get", "cycleway_all"], "share_busway"]
+          ["==", ["get", "cycleway_left"], "lane"],
+          ["==", ["get", "cycleway_left"], "shared_lane"],
+          ["==", ["get", "cycleway_left"], "share_busway"]
         ]
       ],
       "layout": {"visibility": "visible"},
-      "paint": {"line-width": 3, "line-color": "rgba(155, 255, 14, 1)"}
+      "paint": {
+        "line-width": {"stops": [[17, 3], [22, 9]]},
+        "line-color": "rgba(155, 255, 14, 1)",
+        "line-offset": {"stops": [[17, -2], [22, -6.5]]}
+      }
     },
     {
-      "id": "cycleway_missing",
+      "id": "cycleway_onlane_right",
+      "type": "line",
+      "metadata": {
+        "maputnik:comment": "Style for existing cycleway as lane on the major roads"
+      },
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        [
+          "any",
+          ["==", ["get", "class"], "primary"],
+          ["==", ["get", "class"], "secondary"],
+          ["==", ["get", "class"], "tertiary"],
+          ["==", ["get", "class"], "minor"]
+        ],
+        [
+          "any",
+          ["==", ["get", "cycleway_right"], "lane"],
+          ["==", ["get", "cycleway_right"], "shared_lane"],
+          ["==", ["get", "cycleway_right"], "share_busway"]
+        ]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-width": {"stops": [[17, 3], [22, 9]]},
+        "line-color": "rgba(155, 255, 14, 1)",
+        "line-offset": {"stops": [[17, 2], [22, 6.5]]}
+      }
+    },
+    {
+      "id": "cycleway_missing_right",
       "type": "line",
       "metadata": {"maputnik:comment": "cycleway tags are missing"},
       "source": "openmaptiles",
@@ -646,17 +683,51 @@
           "any",
           ["==", ["get", "class"], "primary"],
           ["==", ["get", "class"], "secondary"],
-          ["==", ["get", "class"], "tertiary"]
+          ["==", ["get", "class"], "tertiary"],
+          ["==", ["get", "class"], "minor"]
         ],
-        ["!", ["has", "cycleway_all"]],
+        ["!", ["has", "cycleway_right"]],
         ["!", ["has", "motorroad"]],
-        ["!=", ["get", "bicycle_all"], "no"]
+        ["!=", ["get", "bicycle_forward"], "no"]
       ],
       "layout": {"visibility": "visible", "line-join": "miter"},
-      "paint": {"line-width": 3, "line-color": "rgba(255, 185, 0, 1)"}
+      "paint": {
+        "line-width": {"stops": [[17, 3], [22, 9]]},
+        "line-color": "rgba(255, 185, 0, 1)",
+        "line-offset": {"stops": [[17, 2], [22, 6.5]]}
+      }
     },
     {
-      "id": "cycleway_exists",
+      "id": "cycleway_missing_left",
+      "type": "line",
+      "metadata": {"maputnik:comment": "cycleway tags are missing"},
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        [
+          "any",
+          ["==", ["get", "class"], "primary"],
+          ["==", ["get", "class"], "secondary"],
+          ["==", ["get", "class"], "tertiary"],
+          ["==", ["get", "class"], "minor"]
+        ],
+        ["!", ["has", "cycleway_left"]],
+        ["!", ["has", "motorroad"]],
+        ["!=", ["get", "bicycle_backward"], "no"],
+        ["!=", ["get", "oneway"], 1],
+        ["!=", ["get", "junction"], "roundabout"]
+      ],
+      "layout": {"visibility": "visible", "line-join": "miter"},
+      "paint": {
+        "line-width": {"stops": [[17, 3], [22, 9]]},
+        "line-color": "rgba(255, 185, 0, 1)",
+        "line-offset": {"stops": [[17, -2], [22, -6.5]]}
+      }
+    },
+    {
+      "id": "cycleway_exists_left",
       "type": "line",
       "metadata": {
         "maputnik:comment": "Style for existing cycleway on major roads"
@@ -670,28 +741,69 @@
           "any",
           ["==", ["get", "class"], "primary"],
           ["==", ["get", "class"], "secondary"],
-          ["==", ["get", "class"], "tertiary"]
+          ["==", ["get", "class"], "tertiary"],
+          ["==", ["get", "class"], "minor"]
         ],
         [
           "any",
-          ["==", ["get", "cycleway_all"], "track"],
-          ["==", ["get", "cycleway_all"], "separate"]
+          ["==", ["get", "cycleway_left"], "track"],
+          ["==", ["get", "cycleway_left"], "separate"]
         ],
         [
           "all",
-          ["!=", ["get", "bicycle_all"], "use_sidepath"],
-          ["!=", ["get", "bicycle_all"], "optional_sidepath"]
+          ["!=", ["get", "bicycle_backward"], "use_sidepath"],
+          ["!=", ["get", "bicycle_backward"], "optional_sidepath"]
+        ],
+        ["!=", ["get", "oneway"], 1],
+        ["!=", ["get", "junction"], "roundabout"]
+      ],
+      "layout": {"visibility": "visible", "line-join": "miter"},
+      "paint": {
+        "line-width": {"stops": [[17, 3], [22, 9]]},
+        "line-color": "rgba(38, 161, 34, 1)",
+        "line-dasharray": [1.5, 1.5],
+        "line-offset": {"stops": [[17, -2], [22, -6.5]]}
+      }
+    },
+    {
+      "id": "cycleway_exists_right",
+      "type": "line",
+      "metadata": {
+        "maputnik:comment": "Style for existing cycleway on major roads"
+      },
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        [
+          "any",
+          ["==", ["get", "class"], "primary"],
+          ["==", ["get", "class"], "secondary"],
+          ["==", ["get", "class"], "tertiary"],
+          ["==", ["get", "class"], "minor"]
+        ],
+        [
+          "any",
+          ["==", ["get", "cycleway_right"], "track"],
+          ["==", ["get", "cycleway_right"], "separate"]
+        ],
+        [
+          "all",
+          ["!=", ["get", "bicycle_forward"], "use_sidepath"],
+          ["!=", ["get", "bicycle_forward"], "optional_sidepath"]
         ]
       ],
       "layout": {"visibility": "visible", "line-join": "miter"},
       "paint": {
-        "line-width": 3,
+        "line-width": {"stops": [[17, 3], [22, 9]]},
         "line-color": "rgba(38, 161, 34, 1)",
-        "line-dasharray": [1.5, 1.5]
+        "line-dasharray": [1.5, 1.5],
+        "line-offset": {"stops": [[17, 2], [22, 6.5]]}
       }
     },
     {
-      "id": "cycleway_no_maxspeed",
+      "id": "cycleway_no_maxspeed_left",
       "type": "line",
       "metadata": {
         "maputnik:comment": "No cycleway on main roads with high maxspeed"
@@ -701,9 +813,8 @@
       "minzoom": 8,
       "filter": [
         "all",
-        ["!=", ["get", "class"], "minor"],
         ["!=", ["get", "class"], "service"],
-        ["==", ["get", "cycleway_all"], "no"],
+        ["==", ["get", "cycleway_left"], "no"],
         [">", ["get", "maxspeed_all"], 70]
       ],
       "layout": {
@@ -712,10 +823,39 @@
         "visibility": "visible"
       },
       "paint": {
-        "line-width": 10,
+        "line-width": {"stops": [[17, 10], [22, 18]]},
         "line-blur": 6,
         "line-color": "rgba(255, 0, 228, 1)",
-        "line-translate-anchor": "map"
+        "line-translate-anchor": "map",
+        "line-offset": {"stops": [[17, -2.5], [22, -10]]}
+      }
+    },
+    {
+      "id": "cycleway_no_maxspeed_right",
+      "type": "line",
+      "metadata": {
+        "maputnik:comment": "No cycleway on main roads with high maxspeed"
+      },
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        ["!=", ["get", "class"], "service"],
+        ["==", ["get", "cycleway_right"], "no"],
+        [">", ["get", "maxspeed_all"], 70]
+      ],
+      "layout": {
+        "line-cap": "butt",
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-width": {"stops": [[17, 10], [22, 18]]},
+        "line-blur": 6,
+        "line-color": "rgba(255, 0, 228, 1)",
+        "line-translate-anchor": "map",
+        "line-offset": {"stops": [[17, 2.5], [22, 10]]}
       }
     },
     {
@@ -729,21 +869,24 @@
       "minzoom": 8,
       "filter": [
         "all",
-        ["!=", ["get", "class"], "minor"],
         ["!=", ["get", "class"], "service"],
         ["==", ["get", "cycleway_all"], "no"],
         ["!", ["has", "maxspeed_all"]]
       ],
-      "layout": {"line-cap": "butt", "line-join": "round"},
+      "layout": {
+        "line-cap": "butt",
+        "line-join": "round",
+        "visibility": "visible"
+      },
       "paint": {
-        "line-width": 10,
+        "line-width": {"stops": [[17, 10], [22, 30]]},
         "line-blur": 6,
         "line-color": "rgba(255, 105, 0, 1)",
         "line-translate-anchor": "map"
       }
     },
     {
-      "id": "cycleway_no",
+      "id": "cycleway_no_right",
       "type": "line",
       "metadata": {"maputnik:comment": "No cycleway on main roads"},
       "source": "openmaptiles",
@@ -751,9 +894,8 @@
       "minzoom": 8,
       "filter": [
         "all",
-        ["!=", ["get", "class"], "minor"],
         ["!=", ["get", "class"], "service"],
-        ["==", ["get", "cycleway_all"], "no"],
+        ["==", ["get", "cycleway_right"], "no"],
         ["<=", ["get", "maxspeed_all"], 70]
       ],
       "layout": {
@@ -762,10 +904,40 @@
         "visibility": "visible"
       },
       "paint": {
-        "line-width": 10,
+        "line-width": {"stops": [[17, 10], [22, 18]]},
         "line-blur": 6,
         "line-color": "rgba(255, 0, 0, 1)",
-        "line-translate-anchor": "map"
+        "line-translate-anchor": "map",
+        "line-offset": {"stops": [[17, 2.5], [22, 10]]}
+      }
+    },
+    {
+      "id": "cycleway_no_left",
+      "type": "line",
+      "metadata": {"maputnik:comment": "No cycleway on main roads"},
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        ["!=", ["get", "class"], "service"],
+        ["==", ["get", "cycleway_left"], "no"],
+        ["<=", ["get", "maxspeed_all"], 70],
+        ["!=", ["get", "bicycle_left"], "no"],
+        ["!=", ["get", "oneway"], 1],
+        ["!=", ["get", "junction"], "roundabout"]
+      ],
+      "layout": {
+        "line-cap": "butt",
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-width": {"stops": [[17, 10], [22, 18]]},
+        "line-blur": 6,
+        "line-color": "rgba(255, 0, 0, 1)",
+        "line-translate-anchor": "map",
+        "line-offset": {"stops": [[17, -2.5], [22, -10]]}
       }
     },
     {
@@ -775,82 +947,158 @@
       "source-layer": "transportation",
       "minzoom": 8,
       "filter": ["all", ["has", "is_bicycle_road"]],
+      "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(0, 40, 255, 1)",
-        "line-width": 8,
+        "line-width": {"stops": [[17, 8], [22, 21]]},
         "line-blur": 5
       }
     },
     {
-      "id": "bicycle_way_use",
+      "id": "bicycle_is_optional",
       "type": "line",
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 8,
-      "filter": [
-        "all",
-        [
-          "in",
-          "traffic_sign_all",
-          "DE:240",
-          "DE:237",
-          "DE:241",
-          "DE:241-30",
-          "DE:241-31"
-        ]
-      ],
+      "filter": ["all", ["has", "traffic_sign_is_optional"]],
       "layout": {"visibility": "visible"},
-      "paint": {"line-color": "rgba(0, 40, 255, 1)", "line-width": 2.5}
+      "paint": {
+        "line-color": "rgba(0, 40, 255, 1)",
+        "line-dasharray": {"stops": [[17, [1, 2]], [22, [3, 6]]]},
+        "line-width": {"stops": [[17, 2.5], [22, 8]]}
+      }
     },
     {
-      "id": "bicycle_optional_sidepath",
+      "id": "bicycle_is_mandatory",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 8,
+      "filter": ["all", ["has", "traffic_sign_is_mandatory"]],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(0, 40, 255, 1)",
+        "line-width": {"stops": [[17, 2.5], [22, 8]]}
+      }
+    },
+    {
+      "id": "bicycle_optional_sidepath_backward",
       "type": "line",
       "source": "openmaptiles",
       "source-layer": "transportation",
       "filter": [
         "all",
-        ["==", "bicycle_all", "optional_sidepath"],
-        ["!=", "class", "service"],
-        ["!=", "class", "minor"]
-      ],
-      "layout": {"visibility": "visible"},
-      "paint": {"line-color": "rgba(0, 202, 198, 1)", "line-width": 3}
-    },
-    {
-      "id": "bicycle_use_sidepath",
-      "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "transportation",
-      "filter": [
-        "all",
-        ["==", "bicycle_all", "use_sidepath"],
-        ["!=", "class", "minor"],
+        ["==", "bicycle_backward", "optional_sidepath"],
         ["!=", "class", "service"]
       ],
       "layout": {"visibility": "visible"},
-      "paint": {"line-color": "rgba(46, 255, 0, 1)", "line-width": 3}
+      "paint": {
+        "line-color": "rgba(0, 202, 198, 1)",
+        "line-width": {"stops": [[17, 3], [22, 9]]},
+        "line-offset": {"stops": [[17, -2], [22, -6.5]]}
+      }
     },
     {
-      "id": "bicycle_no",
+      "id": "bicycle_optional_sidepath_forward",
       "type": "line",
       "source": "openmaptiles",
       "source-layer": "transportation",
       "filter": [
         "all",
-        ["==", ["get", "bicycle_all"], "no"],
+        ["==", "bicycle_forward", "optional_sidepath"],
+        ["!=", "class", "service"]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(0, 202, 198, 1)",
+        "line-width": {"stops": [[17, 3], [22, 9]]},
+        "line-offset": {"stops": [[17, 2], [22, 6.5]]}
+      }
+    },
+    {
+      "id": "bicycle_use_sidepath_backward",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "filter": [
+        "all",
+        ["==", ["get", "bicycle_backward"], "use_sidepath"],
+        ["!=", ["get", "class"], "service"],
+        ["!=", ["get", "oneway"], 1],
+        ["!=", ["get", "junction"], "roundabout"]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(46, 255, 0, 1)",
+        "line-width": {"stops": [[17, 3], [22, 9]]},
+        "line-offset": {"stops": [[17, -2], [22, -6.5]]}
+      }
+    },
+    {
+      "id": "bicycle_use_sidepath_forward",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "filter": [
+        "all",
+        ["==", "bicycle_forward", "use_sidepath"],
+        ["!=", "class", "service"]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(46, 255, 0, 1)",
+        "line-width": {"stops": [[17, 3], [22, 9]]},
+        "line-offset": {"stops": [[17, 2], [22, 6.5]]}
+      }
+    },
+    {
+      "id": "bicycle_no_backward",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "filter": [
+        "all",
+        ["==", ["get", "bicycle_backward"], "no"],
         ["!", ["has", "motorroad"]],
         [
           "any",
           ["==", ["get", "class"], "primary"],
           ["==", ["get", "class"], "secondary"],
-          ["==", ["get", "class"], "tertiary"]
+          ["==", ["get", "class"], "tertiary"],
+          ["==", ["get", "class"], "minor"]
         ]
       ],
       "layout": {"visibility": "visible"},
       "paint": {
         "line-color": "rgba(255, 0, 0, 1)",
-        "line-width": 3,
-        "line-dasharray": [1, 1]
+        "line-width": {"stops": [[17, 3], [22, 9]]},
+        "line-dasharray": [1, 1],
+        "line-offset": {"stops": [[17, 2], [22, 6.5]]}
+      }
+    },
+    {
+      "id": "bicycle_no_forward",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "filter": [
+        "all",
+        ["==", ["get", "bicycle_forward"], "no"],
+        ["!", ["has", "motorroad"]],
+        [
+          "any",
+          ["==", ["get", "class"], "primary"],
+          ["==", ["get", "class"], "secondary"],
+          ["==", ["get", "class"], "tertiary"],
+          ["==", ["get", "class"], "minor"]
+        ]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(255, 0, 0, 1)",
+        "line-width": {"stops": [[17, 3], [22, 9]]},
+        "line-dasharray": [1, 1],
+        "line-offset": {"stops": [[17, -2], [22, -6.5]]}
       }
     },
     {
