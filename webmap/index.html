@@ -87,14 +87,14 @@ Object.keys(targets).forEach(layerKey => {
             .map((f, index) => {
                 const osm_id = f.properties.osm_id
                 const osmWebsite = osm_id ?
-                    `<a href="https://www.openstreetmap.org/way/${osm_id}" target="_blank">OSM</a>` :
+                    `<a href="https://www.openstreetmap.org/way/${osm_id}" target="_blank">${osm_id}</a>` :
                     ''
                 const tags = Object.keys(f.properties).map(k => (
                     `<tr><td>${k}</td><td>=</td><td>${f.properties[k]}</td></tr>`
                 )).join('')
 
                 return `
-                    <h2>${osm_id ? `way/${osm_id}` : 'osm_id missing'} ${osmWebsite}<br /> ${f.layer.id}</h2>
+                    <h2>${osm_id ? `ID ${osmWebsite}` : 'osm_id missing'}<h2><h3>${targets[f.layer.id]}</h3>
                     <table>${tags}</table>`
             }).join('');
 
