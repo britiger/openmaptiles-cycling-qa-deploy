@@ -93,6 +93,8 @@ var styles = (MapLibreStyleDefinition = [
         
       ]);
 
+var popup = false;
+
 // https://docs.maptiler.com/maplibre-gl-js/map/#click
 // https://maplibre.org/maplibre-gl-js-docs/example/popup-on-click/
 Object.keys(targets).forEach(layerKey => {
@@ -113,8 +115,10 @@ Object.keys(targets).forEach(layerKey => {
                     <h2>${osm_id ? `ID ${osmWebsite}` : 'osm_id missing'}<h2><h3>${targets[f.layer.id]}</h3>
                     <table>${tags}</table>`
             }).join('');
-
-        new maplibregl.Popup()
+        if(popup) {
+            popup.remove();
+        }
+        popup = new maplibregl.Popup()
             .setLngLat(e.lngLat)
             .setHTML(body)
             .addTo(map);
