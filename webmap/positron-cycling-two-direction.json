@@ -1,6 +1,6 @@
 {
   "version": 8,
-  "name": "Positron",
+  "name": "Positron Two",
   "metadata": {
     "mapbox:autocomposite": false,
     "mapbox:groups": {
@@ -1493,5 +1493,5 @@
       }
     }
   ],
-  "id": "positron"
+  "id": "positron-two"
 }
