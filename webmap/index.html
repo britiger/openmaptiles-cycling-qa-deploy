@@ -4,24 +4,39 @@
     <meta charset='utf-8' />
     <title>Vector Tiles Maplibre Cycling-QA</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link rel="stylesheet" href="pure-min.css" />
     <script src='maplibre-gl.js'></script>
     <link href='maplibre-gl.css' rel='stylesheet' />
-    <link href='maplibre-gl-legend.css' rel='stylesheet' />
-    <script src="maplibre-gl-legend.js"></script>
     <link href='styleswitch.css' rel='stylesheet' />
+    <link rel="stylesheet" href="styles.css" />
     <script src="styleswitch.js"></script>
     <script src="last-update.js"></script>
     <style>
-        body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
-		#refresh { position: absolute; top: 15px; left: 15px; background-color: white; padding: 5px; 
-			border: 1px solid black; font-family: Avenir; cursor: pointer; }
     </style>
 </head>
 <body>
 
+<div id="layout">
+    <a href="#menu" id="menuLink" class="menu-link">
+        <span></span>
+    </a>
+
+    <div id="menu">
+        <div class="pure-menu">
+            <a class="pure-menu-heading">Cycling QA Map</a>
+            <form class="pure-form pure-form-stacked">
+                <fieldset>
+                    <legend>Legende</legend>
+                    <span id="styleList"></span>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div id='map'></div>
-<!-- <div id='refresh' onclick='reload()'>Reload</div> -->
+
 <script>
 var map = new maplibregl.Map({
     container: 'map', // container id
@@ -31,41 +46,36 @@ var map = new maplibregl.Map({
     hash: true,
     attributionControl: false
 });
-const targets = {
-    // One Direction
-    'cycleway_no': 'Ohne Radweg',
-    'cycleway_no_nospeed': 'Ohne Radweg, maxspeed fehlt',
-    'cycleway_no_maxspeed': 'Ohne Radweg, maxspeed>70',
-    'cycleway_exists': 'Extra Radweg vorhanden',
-    'cycleway_missing': 'Radweginformation fehlt',
-    'cycleway_onlane': 'Radweg auf der Fahrbahn',
-    'bicycle_road': 'Fahrradstraße',
-    'bicycle_way_use': 'Radweg (Benutzungspflichtig)',
-    'bicycle_use_sidepath': 'Straße mit benutzungspfl. Radweg',
-    'bicycle_optional_sidepath': 'Straße mit optionalem Radweg',
-    'bicycle_no': 'Radfahren verboten',
-    // Two Directions
-    'cycleway_no_left': 'Ohne Radweg',
-    'cycleway_no_right': 'Ohne Radweg',
-//    'cycleway_no_nospeed': 'Ohne Radweg, maxspeed fehlt',
-    'cycleway_no_maxspeed_left': 'Ohne Radweg, maxspeed>70',
-    'cycleway_no_maxspeed_right': 'Ohne Radweg, maxspeed>70',
-    'cycleway_exists_left': 'Extra Radweg vorhanden',
-    'cycleway_exists_right': 'Extra Radweg vorhanden',
-    'cycleway_missing_left': 'Radweginformation fehlt',
-    'cycleway_missing_right': 'Radweginformation fehlt',
-    'cycleway_onlane_left': 'Radweg auf der Fahrbahn',
-    'cycleway_onlane_right': 'Radweg auf der Fahrbahn',
-//    'bicycle_road': 'Fahrradstraße',
-    'bicycle_is_mandatory': 'Radweg (Benutzungspflichtig)',
-    'bicycle_is_optional': 'Radweg (nur Freigabe)',
-    'bicycle_use_sidepath_forward': 'Straße mit benutzungspfl. Radweg',    
-    'bicycle_use_sidepath_backward': 'Straße mit benutzungspfl. Radweg',
-    'bicycle_optional_sidepath_forward': 'Straße mit optionalem Radweg',
-    'bicycle_optional_sidepath_backward': 'Straße mit optionalem Radweg',
-    'bicycle_no_left': 'Radfahren verboten',
-    'bicycle_no_right': 'Radfahren verboten'
-};
+
+const StyleSelectOptions = {
+    // cycleway Tagging
+    'Ohne Radweg' : { styles: ['cycleway_no', 'cycleway_no_left', 'cycleway_no_right']},
+    'Ohne Radweg, maxspeed fehlt' : { styles: ['cycleway_no_nospeed', 'cycleway_no_maxspeed_left', 'cycleway_no_maxspeed_right']},
+    'Ohne Radweg, maxspeed>70' : { styles: ['cycleway_no_maxspeed']},
+    'Extra Radweg vorhanden' : { styles: ['cycleway_exists', 'cycleway_exists_left', 'cycleway_exists_right']},
+    'Radweginformation fehlt': { styles: ['cycleway_missing','cycleway_missing_left','cycleway_missing_right']},
+    'Radweg auf der Fahrbahn': { styles: ['cycleway_onlane','cycleway_onlane_left','cycleway_onlane_right']},
+    
+    // types of roads
+    'Fahrradstraße' : { styles: ['bicycle_road']},
+    'Radweg (Benutzungspflichtig)' : { styles: ['bicycle_is_mandatory']},
+    'Radweg (nur Freigabe)' : { styles: ['bicycle_is_optional']},
+    
+    // bicyle Tagging
+    'Radfahren verboten' : { styles: ['bicycle_no', 'bicycle_no_forward', 'bicycle_no_backward']},
+    'Straße mit benutzungspfl. Radweg':  { styles: ['bicycle_use_sidepath','bicycle_use_sidepath_forward','bicycle_use_sidepath_backward']}, 
+    'Straße mit optionalem Radweg':   { styles: ['bicycle_optional_sidepath','bicycle_optional_sidepath_forward','bicycle_optional_sidepath_backward']},
+}
+
+var targets = {};
+for (let key in StyleSelectOptions) {	
+    var styleLayers = StyleSelectOptions[key].styles;
+    for (let i = 0; i < styleLayers.length;i++) {
+        targets[styleLayers[i]] = key;
+    }
+}
+
+
 
 var styles = (MapLibreStyleDefinition = [
     {
@@ -118,17 +128,90 @@ Object.keys(targets).forEach(layerKey => {
     });
 });
 
-
-map.addControl(new MaplibreLegendControl(targets, {
-    showDefault: true,
-    showCheckbox: true,
-    onlyRendered: true,
-    reverseOrder: true
-}), 'bottom-left');
 map.addControl(new maplibregl.NavigationControl());
 map.addControl(new MapLibreStyleSwitcherControl(styles));
 map.addControl(new maplibregl.AttributionControl({ customAttribution: "Update: "+last_update }));
+
+var loadedLegend = false;
+
+function addStyleLegendSelect(){
+    var styleListHTML = document.getElementById('styleList');
+    var styleJson = map.getStyle(); 
+    if (styleJson.name == loadedLegend){
+        return;
+    }
+    loadedLegend = styleJson.name;
+    styleListHTML.innerHTML = "";
+    for (let key in StyleSelectOptions) {		
+        
+        var styleLayers = StyleSelectOptions[key].styles;
+        var fnd = false;
+        for (let i = 0; i < styleLayers.length;i++) {
+            if(map.getLayer(styleLayers[i])) {
+                StyleSelectOptions[key].color = map.getPaintProperty(styleLayers[i], 'line-color');
+                if(map.getPaintProperty(styleLayers[i], 'line-dasharray')) {
+                    StyleSelectOptions[key].extra = 'dash';
+                }
+                fnd = true;
+            }
+        }
+        if(fnd) {
+            var label = document.createElement("label");
+            label.setAttribute('for', key);
+            
+            var cbox = document.createElement("input");
+            cbox.setAttribute('id', key);
+            cbox.setAttribute('type', 'checkbox');
+            cbox.setAttribute('checked', 'checked');
+            
+            cbox.addEventListener("click", toggleLegend);
+            
+            // Create Canvas with style
+            var linetype = document.createElement("canvas");
+            linetype.setAttribute('class', 'line-type');
+            linetype.setAttribute('width', '27px');
+            linetype.setAttribute('height', '27px');
+            // draw line
+            const ctx = linetype.getContext('2d');
+            ctx.strokeStyle = StyleSelectOptions[key].color;
+            ctx.lineWidth = 8;
+            if(StyleSelectOptions[key].extra == 'glow' ){
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = StyleSelectOptions[key].color;
+            }
+            ctx.beginPath();
+            if(StyleSelectOptions[key].extra == 'dash' ){
+                ctx.setLineDash([5,5]);
+            } 
+            ctx.moveTo(0, 0);
+            ctx.lineTo(30, 30);
+            ctx.stroke();
+            
+            label.appendChild(cbox);
+            label.appendChild(linetype);
+            label.appendChild(document.createTextNode(key));
+            styleListHTML.appendChild(label);
+        }
+    }
+}
+
+function toggleLegend(e) {
+    // Set entry in Style
+    var layerId = e.target.id
+    var styleLayers = StyleSelectOptions[layerId].styles;
+    var status = document.getElementById(layerId).checked ? 'visible' : 'none';
+    for (let i = 0; i < styleLayers.length;i++) {
+        if(map.getLayer(styleLayers[i])) {
+            map.setLayoutProperty(styleLayers[i],'visibility', status);
+        }
+    }
+}
+
+map.on('styledata', addStyleLegendSelect);
+
 </script>
+
+<script src="ui.js"></script>
 
 </body>
 </html>
