@@ -988,8 +988,10 @@
       "source-layer": "transportation",
       "filter": [
         "all",
-        ["==", "bicycle_backward", "optional_sidepath"],
-        ["!=", "class", "service"]
+        ["==", ["get", "bicycle_backward"], "optional_sidepath"],
+        ["!=", ["get", "class"], "service"],
+        ["!=", ["get", "oneway"], 1],
+        ["!=", ["get", "junction"], "roundabout"]
       ],
       "layout": {"visibility": "visible"},
       "paint": {
