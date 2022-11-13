@@ -65,6 +65,15 @@ const StyleSelectOptions = {
     'Radfahren verboten' : { styles: ['bicycle_no', 'bicycle_no_forward', 'bicycle_no_backward']},
     'Straße mit benutzungspfl. Radweg':  { styles: ['bicycle_use_sidepath','bicycle_use_sidepath_forward','bicycle_use_sidepath_backward']}, 
     'Straße mit optionalem Radweg':   { styles: ['bicycle_optional_sidepath','bicycle_optional_sidepath_forward','bicycle_optional_sidepath_backward']},
+
+    // smoothness
+    'Belag unbekannt': { styles: ['smoothness_missing']},
+    'Belag excellent': { styles: ['smoothness_excellent']},
+    'Belag gut': { styles: ['smoothness_good']},
+    'Belag mittelmäßig': { styles: ['smoothness_intermediate']},
+    'Belag schlecht': { styles: ['smoothness_bad']},
+    'Belag sehr schlecht': { styles: ['smoothness_very_bad']},
+    'Belag schrecklich': { styles: ['smoothness_horrible']},
 }
 
 var targets = {};
@@ -86,6 +95,10 @@ var styles = (MapLibreStyleDefinition = [
         title: "Getrennte Richtung alle Straßen",
         uri: window.location.protocol+'//'+window.location.host+'/positron-cycling-two-direction-all.json'
     },
+    {
+        title: "Radweg Ebenheit",
+        uri: window.location.protocol+'//'+window.location.host+'/positron-cycling-smoothness.json',
+      },
     {
       title: "Old-Version",
       uri: window.location.protocol+'//'+window.location.host+'/positron-cycling.json',
