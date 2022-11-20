@@ -969,6 +969,64 @@
       }
     },
     {
+      "id": "bicycle_is_optional_left",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 8,
+      "filter": ["all", ["has", "side_left_traffic_sign_is_optional"]],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(0, 40, 255, 1)",
+        "line-dasharray": {"stops": [[17, [1, 2]], [22, [3, 6]]]},
+        "line-width": {"stops": [[17, 2.5], [22, 8]]},
+        "line-offset": {"stops": [[17, -6], [22, -20]]}
+      }
+    },
+    {
+      "id": "bicycle_is_optional_right",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 8,
+      "filter": ["all", ["has", "side_right_traffic_sign_is_optional"]],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(0, 40, 255, 1)",
+        "line-dasharray": {"stops": [[17, [1, 2]], [22, [3, 6]]]},
+        "line-width": {"stops": [[17, 2.5], [22, 8]]},
+        "line-offset": {"stops": [[17, 6], [22, 20]]}
+      }
+    },
+    {
+      "id": "bicycle_is_mandatory_left",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 8,
+      "filter": ["all", ["has", "side_left_traffic_sign_is_mandatory"]],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(0, 40, 255, 1)",
+        "line-width": {"stops": [[17, 2.5], [22, 8]]},
+        "line-offset": {"stops": [[17, -6], [22, -20]]}
+      }
+    },
+    {
+      "id": "bicycle_is_mandatory_right",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 8,
+      "filter": ["all", ["has", "side_right_traffic_sign_is_mandatory"]],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(0, 40, 255, 1)",
+        "line-width": {"stops": [[17, 2.5], [22, 8]]},
+        "line-offset": {"stops": [[17, 6], [22, 20]]}
+      }
+    },
+    {
       "id": "bicycle_is_mandatory",
       "type": "line",
       "source": "openmaptiles",
