@@ -815,7 +815,8 @@
         "all",
         ["!=", ["get", "class"], "service"],
         ["==", ["get", "cycleway_left"], "no"],
-        [">", ["get", "maxspeed_all"], 70]
+        [">", ["get", "maxspeed_all"], 70],
+        ["!=", ["get", "bicycle_backward"], "no"]
       ],
       "layout": {
         "line-cap": "butt",
@@ -843,7 +844,8 @@
         "all",
         ["!=", ["get", "class"], "service"],
         ["==", ["get", "cycleway_right"], "no"],
-        [">", ["get", "maxspeed_all"], 70]
+        [">", ["get", "maxspeed_all"], 70],
+        ["!=", ["get", "bicycle_forward"], "no"]
       ],
       "layout": {
         "line-cap": "butt",
@@ -896,7 +898,8 @@
         "all",
         ["!=", ["get", "class"], "service"],
         ["==", ["get", "cycleway_right"], "no"],
-        ["<=", ["get", "maxspeed_all"], 70]
+        ["<=", ["get", "maxspeed_all"], 70],
+        ["!=", ["get", "bicycle_forward"], "no"]
       ],
       "layout": {
         "line-cap": "butt",
@@ -923,7 +926,7 @@
         ["!=", ["get", "class"], "service"],
         ["==", ["get", "cycleway_left"], "no"],
         ["<=", ["get", "maxspeed_all"], 70],
-        ["!=", ["get", "bicycle_left"], "no"],
+        ["!=", ["get", "bicycle_backward"], "no"],
         ["!=", ["get", "oneway"], 1],
         ["!=", ["get", "junction"], "roundabout"]
       ],
