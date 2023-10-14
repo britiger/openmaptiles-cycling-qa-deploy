@@ -47,11 +47,58 @@ var map = new maplibregl.Map({
     attributionControl: false
 });
 
+// List of traffic sign by country wich have an existing file
+const GermanTrafficSign = {
+    '237': '',
+    '239': '',
+    '240': '',
+    '241': '',
+    '241-30': '',
+    '241-31': '',
+    '244': '',
+    '244.1': '',
+    '244.3': '',
+    '250': '',
+    '254': '',
+    '277.1': '',
+    '350.1': '',
+    '1000-30': '',
+    '1000-31': '',
+    '1000-32': '',
+    '1010-52': '',
+    '1010-65': '',
+    '1010-69': '',
+    '1012-32': '',
+    '1020-12': '',
+    '1020-30': '',
+    '1022-10': '',
+    '1022-13': '',
+    '1022-14': '',
+    '1022-15': '',
+    '1024-14': '',
+    '1026-32': '',
+    '1026-33': '',
+    '1026-34': '',
+    '1026-35': '',
+    '1026-37': '',
+    '1026-38': '',
+    '1026-63': '',
+};
+const SwizerlandTrafficSign = {
+    '2.01': '',
+    '2.05': '',
+    '2.60': '',
+    '2.61': '',
+    '2.63': '',
+    '2.63.1': '',
+};
+
+
 const StyleSelectOptions = {
     // cycleway Tagging
     'Ohne Radweg' : { styles: ['cycleway_no', 'cycleway_no_left', 'cycleway_no_right']},
-    'Ohne Radweg, maxspeed fehlt' : { styles: ['cycleway_no_nospeed', 'cycleway_no_maxspeed_left', 'cycleway_no_maxspeed_right']},
-    'Ohne Radweg, maxspeed>70' : { styles: ['cycleway_no_maxspeed']},
+    'Ohne Radweg, maxspeed fehlt' : { styles: ['cycleway_no_nospeed']},
+    'Ohne Radweg, maxspeed>70' : { styles: ['cycleway_no_maxspeed', 'cycleway_no_maxspeed_left', 'cycleway_no_maxspeed_right']},
     'Extra Radweg vorhanden' : { styles: ['cycleway_exists', 'cycleway_exists_left', 'cycleway_exists_right']},
     'Radweginformation fehlt': { styles: ['cycleway_missing','cycleway_missing_left','cycleway_missing_right']},
     'Radweg auf der Fahrbahn': { styles: ['cycleway_onlane','cycleway_onlane_left','cycleway_onlane_right']},
@@ -120,12 +167,21 @@ Object.keys(targets).forEach(layerKey => {
                 const osmWebsite = osm_id ?
                     `<a href="https://www.openstreetmap.org/way/${osm_id}" target="_blank">${osm_id}</a>` :
                     ''
+                var traffic_sign = ''
+                if (['bicycle_is_optional_left','bicycle_is_mandatory_left'].includes(layerKey)) {
+                    traffic_sign = getTrafficSign(f.properties.side_left_traffic_sign);                    
+                } else if (['bicycle_is_optional_right','bicycle_is_mandatory_right'].includes(layerKey)) {
+                    traffic_sign = getTrafficSign(f.properties.side_right_traffic_sign);                    
+                } else {
+                    traffic_sign = getTrafficSign(f.properties.traffic_sign_all);
+                }
                 const tags = Object.keys(f.properties).map(k => (
                     `<tr><td>${k}</td><td>=</td><td>${f.properties[k]}</td></tr>`
                 )).join('')
 
                 return `
                     <h2>${osm_id ? `ID ${osmWebsite}` : 'osm_id missing'}<h2><h3>${targets[f.layer.id]}</h3>
+                    ${traffic_sign}
                     <table>${tags}</table>`
             }).join('');
         if(popup) {
@@ -222,6 +278,24 @@ function toggleLegend(e) {
             map.setLayoutProperty(styleLayers[i],'visibility', status);
         }
     }
+}
+
+function getTrafficSign(traffic_sign) {
+   if (!traffic_sign) return '';
+   // split traffic_sign by seperatior
+   const signs = traffic_sign.toLowerCase().split(';');
+
+   return signs.map(tf => {
+   	const tf_parts = tf.split(':');
+   	if (tf_parts.length == 2 && tf_parts[0] == 'de' && tf_parts[1] in GermanTrafficSign) {           	    
+	   	return `<img src="img/traffic_sign/de/${tf_parts[1]}.svg" title="${GermanTrafficSign[tf_parts[1]]}" width="50em">`;
+	}
+	if (tf_parts.length == 2 && tf_parts[0] == 'ch' && tf_parts[1] in SwizerlandTrafficSign) {           	    
+	  console.log(tf_parts)	;
+	   	return `<img src="img/traffic_sign/ch/${tf_parts[1]}.svg" title="${SwizerlandTrafficSign[tf_parts[1]]}" width="50em">`;
+	}
+	
+   }).join('<br/>');
 }
 
 map.on('styledata', addStyleLegendSelect);
