@@ -1008,12 +1008,13 @@
           "any",
           ["==", ["get", "subclass"], "cycleway"],
           ["==", ["get", "bicycle"], "designated"],
+          ["==", ["get", "bicycle"], "permissive"],
           ["==", ["get", "bicycle"], "yes"]
         ],
         ["!", ["has", "smoothness"]]
       ],
       "paint": {
-        "line-width": {"stops": [[10, 1], [22, 3]]},
+        "line-width": {"stops": [[10, 1], [22, 5]]},
         "line-dasharray": [2, 2]
       }
     },
@@ -1029,13 +1030,14 @@
           "any",
           ["==", ["get", "subclass"], "cycleway"],
           ["==", ["get", "bicycle"], "designated"],
+          ["==", ["get", "bicycle"], "permissive"],
           ["==", ["get", "bicycle"], "yes"]
         ],
         ["==", ["get", "smoothness"], "horrible"]
       ],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-width": {"stops": [[10, 1], [22, 3]]},
+        "line-width": {"stops": [[10, 1], [22, 5]]},
         "line-color": "purple"
       }
     },
@@ -1051,13 +1053,14 @@
           "any",
           ["==", ["get", "subclass"], "cycleway"],
           ["==", ["get", "bicycle"], "designated"],
+          ["==", ["get", "bicycle"], "permissive"],
           ["==", ["get", "bicycle"], "yes"]
         ],
         ["==", ["get", "smoothness"], "very_bad"]
       ],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-width": {"stops": [[10, 1], [22, 3]]},
+        "line-width": {"stops": [[10, 1], [22, 5]]},
         "line-color": "red"
       }
     },
@@ -1073,13 +1076,14 @@
           "any",
           ["==", ["get", "subclass"], "cycleway"],
           ["==", ["get", "bicycle"], "designated"],
+          ["==", ["get", "bicycle"], "permissive"],
           ["==", ["get", "bicycle"], "yes"]
         ],
         ["==", ["get", "smoothness"], "bad"]
       ],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-width": {"stops": [[10, 1], [22, 3]]},
+        "line-width": {"stops": [[10, 1], [22, 5]]},
         "line-color": "orange"
       }
     },
@@ -1095,13 +1099,14 @@
           "any",
           ["==", ["get", "subclass"], "cycleway"],
           ["==", ["get", "bicycle"], "designated"],
+          ["==", ["get", "bicycle"], "permissive"],
           ["==", ["get", "bicycle"], "yes"]
         ],
         ["==", ["get", "smoothness"], "intermediate"]
       ],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-width": {"stops": [[10, 1], [22, 3]]},
+        "line-width": {"stops": [[10, 1], [22, 5]]},
         "line-color": "yellow"
       }
     },
@@ -1117,13 +1122,14 @@
           "any",
           ["==", ["get", "subclass"], "cycleway"],
           ["==", ["get", "bicycle"], "designated"],
+          ["==", ["get", "bicycle"], "permissive"],
           ["==", ["get", "bicycle"], "yes"]
         ],
         ["==", ["get", "smoothness"], "good"]
       ],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-width": {"stops": [[10, 1], [22, 3]]},
+        "line-width": {"stops": [[10, 1], [22, 5]]},
         "line-color": "lightgreen"
       }
     },
@@ -1139,13 +1145,14 @@
           "any",
           ["==", ["get", "subclass"], "cycleway"],
           ["==", ["get", "bicycle"], "designated"],
+          ["==", ["get", "bicycle"], "permissive"],
           ["==", ["get", "bicycle"], "yes"]
         ],
         ["==", ["get", "smoothness"], "excellent"]
       ],
       "layout": {"visibility": "visible"},
       "paint": {
-        "line-width": {"stops": [[10, 1], [22, 3]]},
+        "line-width": {"stops": [[10, 1], [22, 5]]},
         "line-color": "green"
       }
     }
